@@ -22,7 +22,7 @@ func (h *AccountHandler) Create(w http.ResponseWriter, r *http.Request) {
 	// TODO: Do validations like Name size and Email regex...
 	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusBadRequest) // custom error message
 		return
 	}
 
@@ -37,8 +37,6 @@ func (h *AccountHandler) Create(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(output)
 }
 
-// Get processa GET /accounts
-// Requer X-API-Key no header
 func (h *AccountHandler) Get(w http.ResponseWriter, r *http.Request) {
 	apiKey := r.Header.Get("X-API-Key")
 	if apiKey == "" {
@@ -48,7 +46,7 @@ func (h *AccountHandler) Get(w http.ResponseWriter, r *http.Request) {
 
 	output, err := h.accountService.FindByAPIKey(apiKey)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusBadRequest) // custom error message
 		return
 	}
 
