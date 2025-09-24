@@ -19,10 +19,12 @@ func NewAccountHandler(accountService *service.AccountService) *AccountHandler {
 
 func (h *AccountHandler) Create(w http.ResponseWriter, r *http.Request) {
 	var input dtos.CreateAccountInput
-	// TODO: Do validations like Name size and Email regex...
+	// TODO:
+	// - Validate Name size and Email regex and etc
+	// - Domain Error Messages
 	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest) // custom error message
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
@@ -39,14 +41,11 @@ func (h *AccountHandler) Create(w http.ResponseWriter, r *http.Request) {
 
 func (h *AccountHandler) Get(w http.ResponseWriter, r *http.Request) {
 	apiKey := r.Header.Get("X-API-Key")
-	if apiKey == "" {
-		http.Error(w, "API Key is required", http.StatusUnauthorized)
-		return
-	}
-
 	output, err := h.accountService.FindByAPIKey(apiKey)
+	// TODO:
+	// - Domain Error Messages
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest) // custom error message
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 

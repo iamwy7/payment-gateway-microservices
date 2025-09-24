@@ -2,6 +2,7 @@ package service
 
 import (
 	"github.com/iamwy7/payment-gateway-management/internal/domain"
+	"github.com/iamwy7/payment-gateway-management/internal/infra/http_api/dtos"
 	"github.com/iamwy7/payment-gateway-management/internal/ports"
 )
 
@@ -17,12 +18,19 @@ func NewInvoiceService(invoiceRepo ports.InvoiceRepository, accountService Accou
 	}
 }
 
-func (s *InvoiceService) Create(apikey string, invoice *domain.Invoice) (*domain.Invoice, error) {
+func (s *InvoiceService) Create(apikey string, invoiceReq *domain.InvoiceRequest) (*domain.Invoice, error) {
+	// TODO:
+	// - Idempotence Key
 	account, err := s.accountService.FindByAPIKey(apikey)
-
 	if err != nil {
 		return nil, err
 	}
+
+	invoice, err := dtos.ToInvoice(invoiceReq, account.ID)
+	if err != nil {
+		return nil, err
+	}
+
 	if err := invoice.Process(); err != nil {
 		return nil, err
 	}
@@ -60,6 +68,7 @@ func (s *InvoiceService) GetById(apikey, invoiceId string) (*domain.Invoice, err
 
 func (s *InvoiceService) ListByAccountId(accountId string) ([]*domain.Invoice, error) {
 	invoices, err := s.invoiceRepository.FindByAccountID(accountId)
+
 	if err != nil {
 		return nil, err
 	}

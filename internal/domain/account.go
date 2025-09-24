@@ -32,7 +32,7 @@ func NewAccount(name, email string) *Account {
 	}
 }
 
-// generateApiKey is for creating new hexadecimal api keys to new accounts accounts
+// generateApiKey is for creating new hexadecimal api keys to new accounts
 func generateApiKey() string {
 	b := make([]byte, 16)
 	rand.Read(b)

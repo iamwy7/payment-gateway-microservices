@@ -21,6 +21,18 @@ const (
 	Card PaymentType = "card"
 )
 
+type InvoiceRequest struct {
+	ApiKey         string
+	Amount         float64
+	Description    string
+	PaymentType    PaymentType
+	CardNumber     string
+	CVV            string
+	ExpiryMonth    int
+	ExpiryYear     int
+	CardholderName string
+}
+
 type Invoice struct {
 	ID             string // TODO: Try UUID v7 to prevent performance issues with SQL databases
 	AccountID      string

@@ -9,6 +9,8 @@ var (
 	ErrDuplicatedAPIKey = errors.New("api key already exists")
 	// ErrInvoiceNotFound é retornado quando uma fatura não é encontrada.
 	ErrInvoiceNotFound = errors.New("invoice not found")
+	// ErrInvoiceNotFound é retornado quando uma fatura não é encontrada.
+	ErrInvoicesNotFound = errors.New("this account does not have invoices yet")
 	// ErrUnauthorizedAccess é retornado quando há tentativa de acesso não autorizado a um recurso.
 	ErrUnauthorizedAccess = errors.New("unauthorized access")
 

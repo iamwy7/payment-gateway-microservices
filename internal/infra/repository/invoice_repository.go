@@ -61,6 +61,11 @@ func (r *InvoiceRepository) FindByAccountID(accountID string) ([]*domain.Invoice
 		FROM invoices
 		WHERE account_id = $1
 	`, accountID)
+
+	if err == sql.ErrNoRows {
+		return nil, domain.ErrInvoicesNotFound
+	}
+
 	if err != nil {
 		return nil, err
 	}
