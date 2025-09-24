@@ -36,7 +36,7 @@ type Invoice struct {
 type CreditCardVO struct {
 	Number         string
 	CVV            string
-	ExpiryMounth   int
+	ExpiryMonth    int
 	ExpiryYear     int
 	CardholderName string
 }
