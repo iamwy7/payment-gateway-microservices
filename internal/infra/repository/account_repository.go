@@ -107,7 +107,7 @@ func (r *AccountRepository) UpdateBalance(account *domain.Account) error {
 	}
 	defer tx.Rollback() // To unlock in case of errors between tx's...
 
-	var currentBalance float64
+	var currentBalance float64 // for logs
 	err = tx.QueryRow(`SELECT balance FROM accounts WHERE id = $1 FOR UPDATE`, account.ID).Scan(&currentBalance)
 
 	if err == sql.ErrNoRows {
