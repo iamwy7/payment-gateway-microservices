@@ -29,8 +29,6 @@ func (s *AccountService) CreateAccount(newAccount *domain.Account) (*domain.Acco
 		return nil, domain.ErrDuplicatedAPIKey
 	}
 
-	// TODO:
-	// - Idempotence Key
 	err = s.repository.Save(newAccount)
 	if err != nil {
 		return nil, err
