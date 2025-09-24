@@ -21,7 +21,6 @@ func (h *AccountHandler) Create(w http.ResponseWriter, r *http.Request) {
 	var input dtos.CreateAccountInput
 	// TODO:
 	// - Validate Name size and Email regex and etc
-	// - Domain Error Messages
 	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -29,9 +28,18 @@ func (h *AccountHandler) Create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	output, err := h.accountService.CreateAccount(domain.NewAccount(input.Name, input.Email))
+
+	// TODO:
+	// - Domain Error Messages
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+		switch err {
+		case domain.ErrEmailAlreadyExists:
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		default:
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 	}
 
 	w.Header().Set("Content-Type", "application/json")

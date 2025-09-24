@@ -49,9 +49,12 @@ func main() {
 	accountRepository := repository.NewAccountRepository(db)
 	accountService := service.NewAccountService(accountRepository)
 
+	invoiceRepository := repository.NewInvoiceRepository(db)
+	invoiceService := service.NewInvoiceService(invoiceRepository, accountService)
+
 	// Configura e inicia o servidor HTTP
 	port := getEnv("HTTP_PORT", "8080")
-	srv := server.NewServer(accountService, port)
+	srv := server.NewServer(accountService, invoiceService, port)
 	srv.SetupRoutes()
 
 	if err := srv.Start(); err != nil {

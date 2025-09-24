@@ -8,10 +8,10 @@ import (
 
 type InvoiceService struct {
 	invoiceRepository ports.InvoiceRepository
-	accountService    AccountService
+	accountService    *AccountService
 }
 
-func NewInvoiceService(invoiceRepo ports.InvoiceRepository, accountService AccountService) *InvoiceService {
+func NewInvoiceService(invoiceRepo ports.InvoiceRepository, accountService *AccountService) *InvoiceService {
 	return &InvoiceService{
 		invoiceRepository: invoiceRepo,
 		accountService:    accountService,

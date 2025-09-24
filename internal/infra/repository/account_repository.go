@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/iamwy7/payment-gateway-management/internal/domain"
+	"github.com/lib/pq"
 )
 
 type AccountRepository struct {
@@ -34,6 +35,13 @@ func (r *AccountRepository) Save(account *domain.Account) error {
 		account.CreatedAt,
 		account.UpdatedAt,
 	)
+	if err != nil {
+		// Detecta erro específico de constraint UNIQUE no Postgres
+		if pgErr, ok := err.(*pq.Error); ok && pgErr.Code == "23505" {
+			return domain.ErrEmailAlreadyExists
+		}
+		return err
+	}
 
 	if err != nil {
 		return err

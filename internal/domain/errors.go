@@ -13,6 +13,8 @@ var (
 	ErrInvoicesNotFound = errors.New("this account does not have invoices yet")
 	// ErrUnauthorizedAccess é retornado quando há tentativa de acesso não autorizado a um recurso.
 	ErrUnauthorizedAccess = errors.New("unauthorized access")
+	// ErrEmailAlreadyExists é retornado quando um email já está em uso por outra conta
+	ErrEmailAlreadyExists = errors.New("this email is already in use")
 
 	ErrInvalidAmount = errors.New("invalid amount")
 	ErrInvalidStatus = errors.New("invalid status")
